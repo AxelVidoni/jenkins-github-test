@@ -44,4 +44,51 @@ describe("/api/posts routes tests", () => {
       expect(res.body.error).toEqual("Missing required field(s)");
     });
   });
+
+  describe("PUT /api/posts/:id", () => {
+    it("modify a post - success", async () => {
+      const res = await request(app)
+        .put("/api/posts/1")
+        .send({
+          title: "Sample post ",
+          content: "This is a sample post",
+        })
+        .expect(201);
+
+      expect(res.body.title).toEqual("Sample post ");
+    });
+    it("modify a post - missing fields", async () => {
+      const res = await request(app)
+        .put("/api/posts/1")
+        .send({
+          title: "Sample post",
+        })
+        .expect(400);
+      expect(res.body.error).toEqual("Missing required field(s)");
+    });
+    it("modify a post - id incorrect", async () => {
+      const res = await request(app)
+        .put("/api/posts/5")
+        .send({
+          title: "Sample post",
+        })
+        .expect(404);
+      expect(res.body.error).toEqual("Post not found");
+    });
+  });
+
+  describe("DELETE /api/posts/:id", () => {
+    it("delete a post - success", async () => {
+      const res = await request(app)
+        .delete("/api/posts/1")
+        
+        .expect(201);
+    });
+    it("delete a post - id incorrect", async () => {
+      const res = await request(app)
+        .delete("/api/posts/5")
+        .expect(404);
+      expect(res.body.error).toEqual("Post not found");
+    });
+  });
 });

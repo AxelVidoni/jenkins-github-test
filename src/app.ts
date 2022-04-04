@@ -65,4 +65,48 @@ app.post("/api/posts", (req, res) => {
   return res.status(201).send(newPost);
 });
 
+app.put("/api/posts/:id", (req, res) => {
+  const postId = Number(req.params.id);
+  if (Number.isNaN(postId)) {
+    return res.status(400).send({
+      error: "Post id is not a number",
+    });
+  }
+  const idPost = posts.findIndex((post) => post.id === postId);
+  if (idPost == -1) {
+    return res.status(404).send({
+      error: "Post not found",
+    });
+  }
+  const { title, content } = req.body;
+
+  // Poor developer's input validation
+  if (!title || !content) {
+    return res.status(400).send({
+      error: "Missing required field(s)",
+    });
+  }
+
+  posts[idPost].title = title;
+  posts[idPost].content = content;
+  return res.status(201).send(posts[idPost]);
+});
+
+app.delete("/api/posts/:id", (req, res) => {
+  const postId = Number(req.params.id);
+  if (Number.isNaN(postId)) {
+    return res.status(400).send({
+      error: "Post id is not a number",
+    });
+  }
+  const idPost = posts.findIndex((post) => post.id === postId);
+  if (idPost == -1) {
+    return res.status(404).send({
+      error: "Post not found",
+    });
+  }
+  posts.splice(idPost, 1)
+  return res.status(201).send();
+});
+
 export default app;
