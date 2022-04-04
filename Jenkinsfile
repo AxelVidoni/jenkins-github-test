@@ -28,8 +28,7 @@ pipeline {
         stage('build docker image') {
             steps {
                 nodejs(nodeJSInstallationName: 'Node 16 LTS') {
-                    sh 'docker --version'
-                   // sh 'docker push axelvdn/jenkinstest:'
+                    sh 'docker push axelvdn/jenkinstest:myjenkins-blueocean:2.332.1-1'
                 }
             }
         }
