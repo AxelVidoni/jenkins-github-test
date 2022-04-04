@@ -28,7 +28,7 @@ pipeline {
         stage('build docker image') {
             steps {
                 nodejs(nodeJSInstallationName: 'Node 16 LTS') {
-                    sh 'build docker image'
+                    sh 'docker build -t myjenkins-blueocean:2.332.1-1 .'
                 }
             }
         }
