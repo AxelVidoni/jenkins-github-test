@@ -25,5 +25,12 @@ pipeline {
                 }
             }
         }
+        stage('build docker image') {
+            steps {
+                nodejs(nodeJSInstallationName: 'Node 16 LTS') {
+                    sh 'build docker image'
+                }
+            }
+        }
     }
 }
